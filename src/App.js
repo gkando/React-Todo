@@ -45,10 +45,14 @@ class App extends React.Component {
   };
 
 
-  deleteItem = key => {
+  deleteItem = () => {
     const filteredItems = this.state.todoData.filter(item => {
-      return item !== key
+      return item.completed !== true
+      // return this.state.todoData.filter(t => t.completed)
     })
+
+    
+
     console.log(this.state.todoData)
     this.setState({
       todoData: filteredItems,
@@ -64,12 +68,14 @@ class App extends React.Component {
         <div className="header">
           <h2>{this.state.message}</h2>
           <TodoForm addTodo={this.addTodo} />
+          <button onClick={this.deleteItem}>Clear Complete</button>
+
         </div>
 
         <div>
             <TodoList todoData={this.state.todoData} toggleItem={this.toggleItem} />
         </div>
-        
+
       </div>
 
     );

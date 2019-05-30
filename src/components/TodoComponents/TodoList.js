@@ -4,13 +4,13 @@ import './Todo.css';
 
 const TodoList = props => {
     return (
-        <tbody className='todo-list'>
+        <div className='todo-list'>
             {props.todoData.map(item => {
                 return (
                     <Todo key={item.id} toggleItem={props.toggleItem} item={item} />
                     );
             })}
-        </tbody>
+        </div>
     )
 }
 
