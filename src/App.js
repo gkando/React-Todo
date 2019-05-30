@@ -2,56 +2,78 @@ import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
 
-export const Todos = [{task: "Harry Potter", id:   0}, {task: "Santa Shark", id:1}];
+export const Todos = [];
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { 
+    this.state = {
       message: "Welcome to your Todo App!",
-      todoData: Todos,
-      task: ''
+      todoData: Todos
     };
   }
 
-
-  addTodo = e => {
-    
-    e.preventDefault();
-    const newTodo = {
-        task: this.state.task
-    };
-    console.log(newTodo)
-
-    this.setState({
-      todoData: [...this.state.todoData, newTodo]
-    })}
-
-  handleChanges = event => {
-    // console.log(event.target.value)
-    this.setState({
-      [event.target.name]: event.target.value
+  toggleItem = id => {
+    this.setState(prevState => {
+      return {
+        todoData: prevState.todoData.map(item => {
+          if (item.id === id) {
+            return {
+              ...item,
+              completed: !item.completed
+            };
+          } else {
+            return item;
+          }
+        })
+      };
     });
+  };
+
+
+  addTodo = itemName => {
+    const newItem = {
+      task: itemName,
+      id: Date.now(),
+      completed: false
+    };
+    this.setState(prevState => {
+      return {
+        todoData: [...prevState.todoData, newItem]
+      };
+    });
+  };
+
+
+  deleteItem = key => {
+    const filteredItems = this.state.todoData.filter(item => {
+      return item !== key
+    })
+    console.log(this.state.todoData)
+    this.setState({
+      todoData: filteredItems,
+    })
+    
   }
+
 
   render() {
     return (
-      
-      <div>
-        <h2>{this.state.message}</h2>
-        <table className="todo-list">
+      <div className="App">
 
-          <TodoList todoData={this.state.todoData} />
-    
-        </table>
-        <TodoForm addTodo={this.addTodo} handleChanges={this.handleChanges} task={this.state.task} />
+        <div className="header">
+          <h2>{this.state.message}</h2>
+          <TodoForm addTodo={this.addTodo} />
+        </div>
+
+        <div>
+            <TodoList todoData={this.state.todoData} toggleItem={this.toggleItem} />
+        </div>
+        
       </div>
+
     );
   }
 }
 
 export default App;
-
-
-
-
