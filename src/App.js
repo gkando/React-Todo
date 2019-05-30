@@ -14,6 +14,7 @@ class App extends React.Component {
   }
 
   toggleItem = id => {
+    
     this.setState(prevState => {
       return {
         todoData: prevState.todoData.map(item => {
@@ -48,16 +49,11 @@ class App extends React.Component {
   deleteItem = () => {
     const filteredItems = this.state.todoData.filter(item => {
       return item.completed !== true
-      // return this.state.todoData.filter(t => t.completed)
     })
 
-    
-
-    console.log(this.state.todoData)
     this.setState({
       todoData: filteredItems,
     })
-    
   }
 
 
@@ -68,16 +64,18 @@ class App extends React.Component {
         <div className="header">
           <h2>{this.state.message}</h2>
           <TodoForm addTodo={this.addTodo} />
-          <button onClick={this.deleteItem}>Clear Complete</button>
+          <button className='clear-btn' onClick={this.deleteItem}>Clear Complete</button>
 
         </div>
 
         <div>
+          <div className='obj'>
+            <span className="var-highlight">export</span> const Todos = [
+          </div>
             <TodoList todoData={this.state.todoData} toggleItem={this.toggleItem} />
+          ]
         </div>
-
       </div>
-
     );
   }
 }
